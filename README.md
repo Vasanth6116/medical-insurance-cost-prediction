@@ -1,43 +1,94 @@
-# Medical Insurance Cost Prediction
+# Medical Insurance Cost Prediction using Regularized Regression Models
 
-## Overview
+## Project Overview
 
-This project predicts medical insurance charges using demographic and health-related information. The project follows a complete Machine Learning workflow from data preprocessing and exploratory data analysis to model building, evaluation, and statistical interpretation.
+This project predicts medical insurance charges using demographic and health-related information.
+
+The objective is to compare the performance of multiple regression algorithms:
+
+- Linear Regression
+- Ridge Regression
+- Lasso Regression
+- ElasticNet Regression
+
+The project follows a complete machine learning workflow including data cleaning, exploratory data analysis, feature engineering, model training, evaluation, and statistical interpretation.
 
 ---
 
 ## Problem Statement
 
-The objective is to predict insurance charges based on:
+Predict medical insurance charges based on:
 
-* Age
-* Gender
-* BMI
-* Number of Children
-* Smoking Status
-* Region
+- Age
+- Gender
+- BMI
+- Number of Children
+- Smoking Status
+- Region
 
-using Linear Regression.
+using various regression techniques.
 
 ---
 
 ## Dataset Information
 
-* Rows: 1337
-* Features: 6
-* Target Variable: charges
+Dataset: Medical Insurance Cost Prediction
+
+Rows: 1337
+
+Target Variable:
+
+- charges
+
+Features:
 
 ### Numerical Features
 
-* age
-* bmi
-* children
+- age
+- bmi
+- children
 
 ### Categorical Features
 
-* sex
-* smoker
-* region
+- sex
+- smoker
+- region
+
+---
+
+## Data Preprocessing
+
+### Data Cleaning
+
+- Removed duplicate records
+- Checked missing values
+- Verified data types
+
+### Feature Engineering
+
+#### Label Encoding
+
+Applied on:
+
+- sex
+- smoker
+
+#### One-Hot Encoding
+
+Applied on:
+
+- region
+
+Resulting Features:
+
+- age
+- sex
+- bmi
+- children
+- smoker
+- region_northwest
+- region_southeast
+- region_southwest
 
 ---
 
@@ -45,74 +96,122 @@ using Linear Regression.
 
 ### Key Findings
 
-* Insurance charges are right-skewed.
-* Smoking status has the strongest relationship with insurance charges.
-* Age and BMI show a positive relationship with charges.
-* Number of children has a relatively small impact.
-* No major multicollinearity was detected.
+- Insurance charges are highly right-skewed.
+- Smoking status has the strongest impact on insurance charges.
+- Age shows a positive relationship with charges.
+- BMI moderately affects insurance costs.
+- Number of children has relatively low impact.
+- No severe multicollinearity was detected.
 
 ---
 
-## Feature Engineering
+## Outlier Analysis
 
-### Label Encoding
+IQR-based outlier detection was performed.
 
-Applied on:
+Findings:
 
-* sex
-* smoker
+- Age contained no significant outliers.
+- BMI contained a few outliers.
+- Charges contained several high-value observations.
 
-### One-Hot Encoding
-
-Applied on:
-
-* region
+These outliers were retained because they represent valid insurance records rather than data-entry errors.
 
 ---
 
-## Models Trained
+## Models Implemented
 
-### Model 1
+### 1. Linear Regression
 
-Linear Regression (Without Scaling)
+Baseline model for predicting insurance charges.
 
-### Model 2
+### 2. Ridge Regression
 
-Linear Regression (With Standardization)
+Uses L2 Regularization to reduce coefficient magnitudes and prevent overfitting.
+
+### 3. Lasso Regression
+
+Uses L1 Regularization and can perform feature selection.
+
+### 4. ElasticNet Regression
+
+Combines both L1 and L2 Regularization.
 
 ---
 
-## Model Performance
+## Model Performance Comparison
 
-### Without Scaling
-
-* MAE: 4177.05
-* RMSE: 5956.34
-* R² Score: 0.807
-
-### With Scaling
-
-* Performance remained nearly identical.
+| Model                 | MAE     | RMSE    | R² Score |
+| --------------------- | ------- | ------- | -------- |
+| Linear Regression     | 4177.05 | 5956.34 | 0.807    |
+| Ridge Regression      | 4182.80 | 5796.98 | 0.784    |
+| Lasso Regression      | 4181.51 | 5796.65 | 0.784    |
+| ElasticNet Regression | 5271.30 | 7012.55 | 0.683    |
 
 ---
 
 ## OLS Statistical Analysis
 
+OLS Regression was performed using Statsmodels.
+
 ### Significant Features
 
-* Age
-* BMI
-* Children
-* Smoker
-* Region Southeast
-* Region Southwest
+- Age
+- BMI
+- Children
+- Smoker
+- Region Southeast
+- Region Southwest
 
 ### Non-Significant Features
 
-* Sex
-* Region Northwest
+- Sex
+- Region Northwest
 
-Smoking status was identified as the most influential predictor of insurance charges.
+Smoking status was identified as the most influential predictor.
+
+---
+
+## Feature Importance Insights
+
+Across all regression models:
+
+### Most Important Features
+
+1. Smoker
+2. Age
+3. BMI
+
+### Less Important Features
+
+- Children
+- Region
+- Sex
+
+Smoking status consistently had the strongest effect on insurance charges.
+
+---
+
+## Key Learnings
+
+This project helped understand:
+
+- Linear Regression
+- Multiple Linear Regression
+- Feature Engineering
+- Train-Test Split
+- Model Evaluation Metrics
+- MAE
+- MSE
+- RMSE
+- R² Score
+- Adjusted R²
+- OLS Regression
+- Ridge Regularization
+- Lasso Regularization
+- ElasticNet Regression
+- Coefficient Interpretation
+- Outlier Detection
 
 ---
 
@@ -122,9 +221,17 @@ Medical-Insurance-Cost-Prediction/
 
 ├── data/
 
+│ └── insurance.csv
+
 ├── notebooks/
 
-├── images/
+│ ├── Medical_Insurance_Cost_Prediction.ipynb
+
+│ ├── Ridge_Regression.ipynb
+
+│ ├── Lasso_Regression.ipynb
+
+│ └── ElasticNet_Regression.ipynb
 
 ├── models/
 
@@ -132,11 +239,19 @@ Medical-Insurance-Cost-Prediction/
 
 │ ├── linear_regression_scaled.pkl
 
+│ ├── ridge_regression_model.pkl
+
+│ ├── lasso_regression_model.pkl
+
+│ ├── elasticnet_regression_model.pkl
+
 │ └── scaler.pkl
 
-├── requirements.txt
+├── images/
 
 ├── README.md
+
+├── requirements.txt
 
 └── .gitignore
 
@@ -144,10 +259,14 @@ Medical-Insurance-Cost-Prediction/
 
 ## Conclusion
 
-Linear Regression successfully captured the relationship between insurance charges and key factors such as smoking status, age, and BMI.
+Four regression algorithms were implemented and compared for predicting medical insurance charges.
 
-The model achieved strong predictive performance and explained over 80% of the variation in insurance charges.
+Linear Regression achieved the best overall performance with an R² score of 0.807, indicating that it explained approximately 80.7% of the variation in insurance charges.
 
-Feature scaling produced minimal changes in performance, which is expected for Linear Regression, but was included to demonstrate a complete machine learning workflow and prepare the data for algorithms that are sensitive to feature scale.
+Ridge and Lasso Regression produced similar results, showing that regularization was not significantly required for this dataset.
 
-This project serves as a strong baseline regression project and demonstrates the complete end-to-end process of building and evaluating a machine learning model.
+ElasticNet Regression resulted in lower performance, suggesting that stronger regularization introduced underfitting.
+
+Across all models, smoking status emerged as the most influential predictor, followed by age and BMI.
+
+This project demonstrates a complete end-to-end machine learning workflow and provides a practical comparison of regularized regression techniques.
